@@ -1,6 +1,8 @@
 package BrickCAD;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.util.Observable;
 
@@ -12,6 +14,8 @@ public class FrontView extends View{
 	Brick brick = (Brick) getModel();
 	public FrontView() {
 		super();
+		brick.addObserver(this);
+		setLayout(new BorderLayout());
 	}
 	@Override
 	public void paint (Graphics g) {

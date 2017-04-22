@@ -3,6 +3,8 @@ package BrickCAD;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JInternalFrame;
+
 import MVC.*;
 
 public class BrickFactory implements AppFactory {
@@ -10,15 +12,16 @@ public class BrickFactory implements AppFactory {
 	ArrayList<View> views = null;
 	private String title="Brick CAD";
 	private String help="Please consult ReadMe.";
-	private String about="Brick CAD is an application for designing bricks. It uses the MVC and Publisher/Subscriber"
-			+ "pattern to do this. You can edit the properties of a brick, undo, redo, and save any changes you have made"
+	private String about="Brick CAD is an application for designing bricks. It uses the MVC and Publisher/Subscriber "
+			+ "pattern to do this. You can edit the properties of a brick, undo, redo, and save any changes you have made "
 			+ "It is intended for educational purposes only.";
+	
 	public Model makeModel() {
 		return new Brick();
 	}
 
 	public Command makeCommand(String type) {
-			if(type.equalsIgnoreCase("setheight")) return new SetHeight(BrickCAD.model);
+			if(type.equalsIgnoreCase("setheight")) return new SetHeight();
 			if(type.equalsIgnoreCase("setlength")) return new SetLength();
 			if(type.equalsIgnoreCase("setwidth")) return new SetWidth();
 			return null;
@@ -34,10 +37,10 @@ public class BrickFactory implements AppFactory {
 	
 	@Override
 	public ArrayList<View> getViews() {
-		views.add(topview);
-		views.add(sideview);
-		views.add(dimensionview);
-		views.add(frontview);
+//		views.add(topview);
+//		views.add(sideview);
+//		views.add(dimensionview);
+//		views.add(frontview);
 		return views;
 	}
 

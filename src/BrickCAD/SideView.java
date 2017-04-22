@@ -1,6 +1,8 @@
 package BrickCAD;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.util.Observable;
 
@@ -12,6 +14,8 @@ public class SideView extends View {
 	Graphics g;
 	public SideView() {
 		super();
+		brick.addObserver(this);
+		setLayout(new BorderLayout());
 	}
 	public void paint (Graphics g) {
 		  g.drawRect (20, 20, (int) brick.getWidth(), (int) brick.getHeight());    //can use either of the two//

@@ -1,8 +1,12 @@
 package BrickCAD;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.util.Observable;
+
+import javax.swing.JInternalFrame;
 
 import MVC.*;
 
@@ -13,6 +17,8 @@ public class TopView extends View {
 	Graphics g;
 	public TopView() {
 		super();
+		brick.addObserver(this);
+		setLayout(new BorderLayout());
 	}
 	@Override
 	public void paint (Graphics g) {

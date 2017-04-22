@@ -7,6 +7,11 @@ public class Brick extends Model {
 	private double height;
 	private double width;
 	private double length;
+	public Brick(){
+		this.height = 10.0;
+		this.width = 20.0;
+		this.length = 25.0;
+	}
 	public double getHeight(){
 		return this.height;
 	}

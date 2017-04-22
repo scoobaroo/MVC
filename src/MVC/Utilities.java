@@ -1,4 +1,4 @@
-package mvc;
+package MVC;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,11 +7,11 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class MVCApp extends JFrame implements ActionListener {
 
-	private JDesktopPane desktop;
-	private AppFactory factory;
-	private Model model;
-	private CommandProcessor commandProcessor;
-
+	protected static JDesktopPane desktop;
+	protected static AppFactory factory;
+	private static Model model;
+	private static CommandProcessor commandProcessor;
+	protected static JMenuBar menubar = new JMenuBar();
 	public MVCApp(AppFactory factory) {
 
 		this.factory = factory;
@@ -34,32 +34,29 @@ public class MVCApp extends JFrame implements ActionListener {
 		//Make dragging a little faster but perhaps uglier.
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 	}
-	public Model getModel(){
-		return model;
-	}
-	public JDesktopPane getDesktop(){
-		return this.desktop;
-	}
-	public AppFactory getFactory(){
-		return factory;
+	public static JDesktopPane getDesktopPane(){
+		return desktop;
 	}
 	protected JMenuBar createMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
         //Set up the lone menu.
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_D);
-        menuBar.add(fileMenu);
-        JMenu editMenu = new JMenu("Edit");
-        editMenu.setMnemonic(KeyEvent.VK_A);
-        menuBar.add(editMenu);
-        JMenu viewMenu = new JMenu("View");
-        viewMenu.setMnemonic(KeyEvent.VK_W);
-        menuBar.add(viewMenu);
+        menubar.add(fileMenu);
         JMenu helpMenu = new JMenu("Help");
         helpMenu.setMnemonic(KeyEvent.VK_W);
-        menuBar.add(helpMenu);
- 
-        JMenuItem menuItem = new JMenuItem("Help");
+        menubar.add(helpMenu);
+        JMenu aboutMenu = new JMenu("About");
+        menubar.add(aboutMenu);
+        
+        JMenuItem menuItem = new JMenuItem("About");
+        menuItem.setMnemonic(KeyEvent.VK_A);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_A, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("about");
+        menuItem.addActionListener((ActionListener) this);
+        aboutMenu.add(menuItem);
+        
+        menuItem = new JMenuItem("Help");
         menuItem.setMnemonic(KeyEvent.VK_H);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_H, ActionEvent.ALT_MASK));
@@ -98,80 +95,8 @@ public class MVCApp extends JFrame implements ActionListener {
         menuItem.setActionCommand("quit");
         menuItem.addActionListener((ActionListener) this);
         fileMenu.add(menuItem);
-        menuItem = new JMenuItem("Undo");
         
-        menuItem.setMnemonic(KeyEvent.VK_U);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_U, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("undo");
-        menuItem.addActionListener((ActionListener) this);
-        editMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Redo");
-        menuItem.setMnemonic(KeyEvent.VK_R);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_R, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("redo");
-        menuItem.addActionListener((ActionListener) this);
-        editMenu.add(menuItem);
-
-        menuItem = new JMenuItem("Edit Height");
-        menuItem.setMnemonic(KeyEvent.VK_H);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_H, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("editheight");
-        menuItem.addActionListener((ActionListener) this);
-        editMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Edit Width");
-        menuItem.setMnemonic(KeyEvent.VK_W);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_W, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("editwidth");
-        menuItem.addActionListener((ActionListener) this);
-        editMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Edit Length");
-        menuItem.setMnemonic(KeyEvent.VK_L);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-        		KeyEvent.VK_L, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("editlength");
-        menuItem.addActionListener((ActionListener) this);
-        editMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Side View");
-        menuItem.setMnemonic(KeyEvent.VK_S);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_S, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("sideview");
-        menuItem.addActionListener((ActionListener) this);
-        viewMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Top View");
-        menuItem.setMnemonic(KeyEvent.VK_T);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_T, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("topview");
-        menuItem.addActionListener((ActionListener) this);
-        viewMenu.add(menuItem);
-       
-        menuItem = new JMenuItem("Front View");
-        menuItem.setMnemonic(KeyEvent.VK_F);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_F, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("frontview");
-        menuItem.addActionListener((ActionListener) this);
-        viewMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Dimensions View");
-        menuItem.setMnemonic(KeyEvent.VK_D);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_D, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("dview");
-        menuItem.addActionListener((ActionListener) this);
-        viewMenu.add(menuItem);
-        
-        return menuBar;
+        return menubar;
     }
 
 	public void actionPerformed(ActionEvent e){
