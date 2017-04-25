@@ -72,7 +72,7 @@ public class Utilities {
 	   }
 
    public static void informUser(String info) {
-	   JOptionPane.showMessageDialog(null, info,
+	   JOptionPane.showMessageDialog(null, "<html><body><p style='width: 200px;'>"+info+"</p></body></html>",
 	             "information", JOptionPane.INFORMATION_MESSAGE);
    }
 

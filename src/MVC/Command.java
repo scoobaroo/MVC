@@ -5,6 +5,7 @@ public abstract class Command {
 	protected Model model;
 	private Memento memento;
 	public String commandName;
+	
 	public Command(){
 		
 	}
@@ -27,7 +28,6 @@ public abstract class Command {
 		this.memento = memento;
 	}
 	public Command(Model model) {
-		super();
 		this.model = model;
 	}
 	public void execute(){

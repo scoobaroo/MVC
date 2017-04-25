@@ -2,6 +2,7 @@ package BrickCAD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.util.Observable;
@@ -10,23 +11,26 @@ import MVC.*;
 
 @SuppressWarnings("serial")
 public class SideView extends View {
-	Brick brick = (Brick) getModel();
+	Brick brick = (Brick) BrickCAD.getModel();
 	Graphics g;
 	public SideView() {
 		super();
+		System.out.println(brick);
+		setPreferredSize(new Dimension(400, 400));
 		brick.addObserver(this);
 		setLayout(new BorderLayout());
 	}
-	public void paint (Graphics g) {
-		  g.drawRect (20, 20, (int) brick.getWidth(), (int) brick.getHeight());    //can use either of the two//
-		  g.fillRect (20, 20, (int) brick.getWidth(), (int) brick.getHeight());
-		  Color color = Color.red;
-		  g.setColor(color );
+	public void paintComponent (Graphics g) {
+		  super.paintComponent(g);
+		  g.setColor(Color.BLUE);
+		  g.drawRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10); 
+		  g.setColor(Color.RED);//can use either of the two//
+		  g.fillRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10);
 		}
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o.hasChanged()){
-			paint(g);
+			paintComponent(g);
 		}
 	}
 

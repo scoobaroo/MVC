@@ -22,17 +22,21 @@ public class BrickFactory implements AppFactory {
 
 	public Command makeCommand(String type) {
 			if(type.equalsIgnoreCase("setheight")) return new SetHeight();
-			if(type.equalsIgnoreCase("setlength")) return new SetLength();
-			if(type.equalsIgnoreCase("setwidth")) return new SetWidth();
-			return null;
+			else if(type.equalsIgnoreCase("setlength")) return new SetLength();
+			else if(type.equalsIgnoreCase("setwidth")) return new SetWidth();
+			else return null;
 	}
 
 	public View makeView(String cmmd) {
+		System.out.println("inside makeView method in BrickFactory");
 		if(cmmd.equalsIgnoreCase("topview")) return new TopView();
-		if(cmmd.equalsIgnoreCase("sideview")) return new SideView();
-		if(cmmd.equalsIgnoreCase("dview")) return new DimensionsView();
-		if(cmmd.equalsIgnoreCase("frontview")) return new FrontView();
-		return null;
+		else if(cmmd.equalsIgnoreCase("sideview")) return new SideView();
+		else if(cmmd.equalsIgnoreCase("dview")) return new DimensionsView();
+		else if(cmmd.equalsIgnoreCase("frontview")) return new FrontView();
+		else if(cmmd.equalsIgnoreCase("editheight")) return new EditHeightView();
+		else if(cmmd.equalsIgnoreCase("editlength")) return new EditLengthView();
+		else if(cmmd.equalsIgnoreCase("editwidth")) return new EditWidthView();
+		else return null;
 	}
 	
 	@Override
@@ -51,6 +55,9 @@ public class BrickFactory implements AppFactory {
 		commands.add("quit");
 		commands.add("undo");
 		commands.add("redo");
+		commands.add("setheight");
+		commands.add("setlength");
+		commands.add("setwidth");
 		return commands;
 	}
 

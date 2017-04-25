@@ -9,12 +9,13 @@ import MVC.*;
 
 @SuppressWarnings("serial")
 public class BrickCAD extends MVCApp{
-
+	Brick brick = (Brick) MVCApp.getModel();
 	CommandProcessor cp = CommandProcessor.getCommandProcessor();
 	public BrickCAD(AppFactory factory) {
 		super(factory);
 		editMenu();
 	}
+
 	protected void editMenu(){
         JMenu editMenu = new JMenu("Edit");
         editMenu.setMnemonic(KeyEvent.VK_A);
@@ -100,40 +101,88 @@ public class BrickCAD extends MVCApp{
 	public void actionPerformed(ActionEvent e){
     	String cmmd = e.getActionCommand();
     	if (cmmd.equalsIgnoreCase("setLength")) {
-    		Command setLength = factory.makeCommand("setlength");
+    		Command setLength = getFactory().makeCommand("setlength");
     		cp.execute(setLength);
-    	} else if (cmmd.equalsIgnoreCase("setHeight")) {
-    		Command setHeight = factory.makeCommand("setheight");
+    	} 
+    	else if (cmmd.equalsIgnoreCase("setHeight")) {
+    		Command setHeight = getFactory().makeCommand("setheight");
     		cp.execute(setHeight);
-       	} else if (cmmd.equalsIgnoreCase("setWidth")) {
-       		Command setWidth = factory.makeCommand("setwidth");
+       	} 
+    	else if (cmmd.equalsIgnoreCase("setWidth")) {
+       		Command setWidth = getFactory().makeCommand("setwidth");
        		cp.execute(setWidth);
     	} 
+       	else if (cmmd.equalsIgnoreCase("editheight")) {
+			View panel = getFactory().makeView(cmmd);
+			panel.setModel(getModel());
+			ViewFrame vf = new ViewFrame(panel);
+			vf.setVisible(true);
+			vf.setTitle("Edit Height");
+			desktop.add(vf);
+			vf.toFront();
+		} 
+       	else if (cmmd.equalsIgnoreCase("editlength")) {
+			View panel = getFactory().makeView(cmmd);
+			panel.setModel(getModel());
+			ViewFrame vf = new ViewFrame(panel);
+			vf.setVisible(true);
+			vf.setTitle("Edit Length");
+			desktop.add(vf);
+			vf.toFront();
+		} 
+       	else if (cmmd.equalsIgnoreCase("editwidth")) {
+			View panel = getFactory().makeView(cmmd);
+			panel.setModel(getModel());
+			ViewFrame vf = new ViewFrame(panel);
+			vf.setVisible(true);
+			vf.setTitle("Edit Width");
+			desktop.add(vf);
+			vf.toFront();
+		} 
        	else if (cmmd.equalsIgnoreCase("topview")) {
-	   		View topview = factory.makeView("topview");
-	   		desktop.add(topview);
+			View panel = getFactory().makeView(cmmd);
+			panel.setModel(getModel());
+			ViewFrame vf = new ViewFrame(panel);
+			vf.setVisible(true);
+			vf.setTitle("Top View");
+			desktop.add(vf);
+			vf.toFront();
 		} 
        	else if (cmmd.equalsIgnoreCase("sideview")) {
-	   		View sideview = factory.makeView("sideview");
-	   		desktop.add(sideview);
+			View panel = getFactory().makeView(cmmd);
+			panel.setModel(getModel());
+			ViewFrame vf = new ViewFrame(panel);
+			vf.setVisible(true);
+			vf.setTitle("Side View");
+			desktop.add(vf);
+			vf.toFront();
 		} 
-       	else if (cmmd.equalsIgnoreCase("topview")) {
-	   		View frontview = factory.makeView("frontview");
-	   		desktop.add(frontview);
+       	else if (cmmd.equalsIgnoreCase("frontview")) {
+			View panel = getFactory().makeView(cmmd);
+			panel.setModel(getModel());
+			ViewFrame vf = new ViewFrame(panel);
+			vf.setVisible(true);
+			vf.setTitle("Front View");
+			desktop.add(vf);
+			vf.toFront();
 		} 
        	else if (cmmd.equalsIgnoreCase("dview")) {
-	   		View dview = factory.makeView("dview");
-	   		desktop.add(dview);
+    		View panel = getFactory().makeView(cmmd);
+    		panel.setModel(getModel());
+    		ViewFrame vf = new ViewFrame(panel);
+    		vf.setVisible(true);
+    		vf.setTitle("Dimensions View");
+    		desktop.add(vf);
+    		vf.toFront();
 		} 
     }
 	
 	public void actionPerformed(KeyEvent e){
     	int cmmd = e.getKeyCode();
-    	AppFactory factory = getFactory();
     	if (cmmd==KeyEvent.VK_ENTER) {
-    		Command setLength = factory.makeCommand("setlength");
-    		Command setHeight = factory.makeCommand("setheight");
-    		Command setWidth = factory.makeCommand("setwidth");
+    		Command setLength = getFactory().makeCommand("setlength");
+    		Command setHeight = getFactory().makeCommand("setheight");
+    		Command setWidth = getFactory().makeCommand("setwidth");
     		cp.execute(setLength);
     		cp.execute(setHeight);
     		cp.execute(setWidth);
@@ -145,6 +194,7 @@ public class BrickCAD extends MVCApp{
 		BrickFactory bf = new BrickFactory();
 		BrickCAD bc = new BrickCAD(bf);
 		Brick brick = (Brick) bf.makeModel();
+		bc.setModel(brick);
 		bc.run(bf);
 	}
 }

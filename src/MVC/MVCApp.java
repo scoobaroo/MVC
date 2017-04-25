@@ -4,17 +4,19 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import BrickCAD.Brick;
+
 @SuppressWarnings("serial")
 public class MVCApp extends JFrame implements ActionListener {
 
 	protected static JDesktopPane desktop;
-	protected static AppFactory factory;
+	private static AppFactory factory;
 	private static Model model;
 	private static CommandProcessor commandProcessor;
 	protected static JMenuBar menubar = new JMenuBar();
 	public MVCApp(AppFactory factory) {
 
-		this.factory = factory;
+		this.setFactory(factory);
 		model = factory.makeModel();
 		this.commandProcessor = CommandProcessor.makeCommandProcessor();
 
@@ -109,18 +111,18 @@ public class MVCApp extends JFrame implements ActionListener {
     		Utilities.error("Sorry, not yet implemented");
     	} else if (cmmd == "new") {
     		Utilities.saveChanges(model);
-    		model = factory.makeModel();
+    		model = getFactory().makeModel();
     	} else if (cmmd == "undo") {
     		commandProcessor.undo();
     	} else if (cmmd == "redo") {
     		commandProcessor.redo();
     	} else if (cmmd == "quit") {
-    		Utilities.saveChanges(model);
+//    		Utilities.saveChanges(model);
     		System.exit(1);
     	} else if (cmmd == "help") {
-    		Utilities.informUser(factory.getHelp());
+    		Utilities.informUser(getFactory().getHelp());
     	} else if (cmmd == "about") {
-    		Utilities.informUser(factory.about());
+    		Utilities.informUser(getFactory().about());
     	} else {
     		Utilities.error("Unrecognized command: " + cmmd);
     	}
@@ -129,8 +131,9 @@ public class MVCApp extends JFrame implements ActionListener {
 	// sort of works
 	class ViewHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
+			System.out.println("inside MVCApp's ViewHandler");
 			String cmmd = e.getActionCommand();
-			View panel = factory.makeView(cmmd);
+			View panel = getFactory().makeView(cmmd);
 			panel.setModel(model);
 			ViewFrame vf = new ViewFrame(panel);
 			vf.setVisible(true);
@@ -144,7 +147,7 @@ public class MVCApp extends JFrame implements ActionListener {
     class EditHandler implements ActionListener {
     	public void actionPerformed(ActionEvent e){
     		String cmmd = e.getActionCommand();
-    		Command cmmdObject = factory.makeCommand(cmmd);
+    		Command cmmdObject = getFactory().makeCommand(cmmd);
     		cmmdObject.setModel(model);
     		commandProcessor.execute(cmmdObject);
         	// make a command and ask command processor to execute it
@@ -166,5 +169,16 @@ public class MVCApp extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		System.out.println("Inside MVC app");
 	}
-
+	public static AppFactory getFactory() {
+		return factory;
+	}
+	public void setFactory(AppFactory fact){
+		MVCApp.factory=fact;
+	}
+	public static Model getModel(){
+		return MVCApp.model;
+	}
+	public static void setModel(Model model) {
+		MVCApp.model = model;
+	}
 }
