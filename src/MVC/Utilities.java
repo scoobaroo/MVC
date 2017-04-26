@@ -49,7 +49,6 @@ public class Utilities {
    	   return JOptionPane.showInputDialog(query);
    }
 
-
    public static boolean confirm(String query) {
 	   int result = JOptionPane.showConfirmDialog(null,
 	             query, "choose one", JOptionPane.YES_NO_OPTION);

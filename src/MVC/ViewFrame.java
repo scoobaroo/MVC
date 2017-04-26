@@ -9,7 +9,7 @@ import javax.swing.*;
 public class ViewFrame extends JInternalFrame implements Observer {
 	private static int openFrameCount = 0;
 	public ViewFrame(View view) {
-        super("View #" + (++openFrameCount),
+        super(view.getTitle(),
               true, //resizable
               true, //closable
               true, //maximizable

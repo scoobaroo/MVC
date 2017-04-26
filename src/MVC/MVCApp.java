@@ -2,6 +2,8 @@ package MVC;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import BrickCAD.Brick;
@@ -14,6 +16,23 @@ public class MVCApp extends JFrame implements ActionListener {
 	private static Model model;
 	private static CommandProcessor commandProcessor;
 	protected static JMenuBar menubar = new JMenuBar();
+	public ArrayList<String> commands = null;
+	public ArrayList<String> views = null;
+
+	public void setupEditMenu(){
+		commands.add("new");
+		commands.add("save");
+		commands.add("saveas");
+		commands.add("edit");
+		commands.add("quit");
+		commands.add("undo");
+		commands.add("redo");
+	}
+	static String[] fileOptions = {"New","Open","Save", "SaveAs", "Quit"};
+	static String[] editOptions = {"Redo","Undo"};
+	static String[] helpOptions = {"help","about"};
+	static String[] viewOptions = {};
+	
 	public MVCApp(AppFactory factory) {
 
 		this.setFactory(factory);
@@ -36,68 +55,79 @@ public class MVCApp extends JFrame implements ActionListener {
 		//Make dragging a little faster but perhaps uglier.
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 	}
+
+	
 	public static JDesktopPane getDesktopPane(){
 		return desktop;
 	}
+
 	protected JMenuBar createMenuBar() {
-        //Set up the lone menu.
-        JMenu fileMenu = new JMenu("File");
-        fileMenu.setMnemonic(KeyEvent.VK_D);
-        menubar.add(fileMenu);
-        JMenu helpMenu = new JMenu("Help");
-        helpMenu.setMnemonic(KeyEvent.VK_W);
-        menubar.add(helpMenu);
-        JMenu aboutMenu = new JMenu("About");
-        menubar.add(aboutMenu);
-        
-        JMenuItem menuItem = new JMenuItem("About");
-        menuItem.setMnemonic(KeyEvent.VK_A);
+		JMenuBar menubar = new JMenuBar();
+		JMenu filemenu = Utilities.makeMenu("File", fileOptions, this);
+		JMenu helpmenu = Utilities.makeMenu("Help", helpOptions, this);
+		JMenu editmenu = Utilities.makeMenu("Edit", factory.getCommands().toArray(new String[0]), new EditHandler());
+		JMenu viewmenu = Utilities.makeMenu("View",factory.getViews().toArray(new String[0]), new ViewHandler());
+		menubar.add(filemenu);
+		menubar.add(editmenu);
+		menubar.add(viewmenu);
+		menubar.add(helpmenu);
+
+        JMenuItem menuItem = new JMenuItem("undo");
+        menuItem.setMnemonic(KeyEvent.VK_U);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_A, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("about");
-        menuItem.addActionListener((ActionListener) this);
-        aboutMenu.add(menuItem);
+                KeyEvent.VK_U, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("undo");
+        menuItem.addActionListener(this);
+        editmenu.add(menuItem);
         
-        menuItem = new JMenuItem("Help");
-        menuItem.setMnemonic(KeyEvent.VK_H);
+        menuItem = new JMenuItem("redo");
+        menuItem.setMnemonic(KeyEvent.VK_R);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_H, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("help");
-        menuItem.addActionListener((ActionListener) this);
-        helpMenu.add(menuItem);
+                KeyEvent.VK_R, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("redo");
+        menuItem.addActionListener(this);
+        editmenu.add(menuItem);
         
-        menuItem = new JMenuItem("New");
-        menuItem.setMnemonic(KeyEvent.VK_N);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_N, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("new");
-        menuItem.addActionListener((ActionListener) this);
-        fileMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Save");
-        menuItem.setMnemonic(KeyEvent.VK_S);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_S, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("save");
-        menuItem.addActionListener((ActionListener) this);
-        fileMenu.add(menuItem);
-        
-        menuItem = new JMenuItem("Open");
-        menuItem.setMnemonic(KeyEvent.VK_O);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_O, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("open");
-        menuItem.addActionListener((ActionListener) this);
-        fileMenu.add(menuItem);
-                
-        menuItem = new JMenuItem("Quit");
-        menuItem.setMnemonic(KeyEvent.VK_Q);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("quit");
-        menuItem.addActionListener((ActionListener) this);
-        fileMenu.add(menuItem);
-        
+//        menuItem = new JMenuItem("New");
+//        menuItem.setMnemonic(KeyEvent.VK_N);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_N, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("new");
+//        menuItem.addActionListener((ActionListener) this);
+//        fileMenu.add(menuItem);
+//        
+//        menuItem = new JMenuItem("Save");
+//        menuItem.setMnemonic(KeyEvent.VK_S);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_S, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("save");
+//        menuItem.addActionListener((ActionListener) this);
+//        fileMenu.add(menuItem);
+//        
+//        menuItem = new JMenuItem("Save As");
+//        menuItem.setMnemonic(KeyEvent.VK_P);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_P, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("saveas");
+//        menuItem.addActionListener((ActionListener) this);
+//        fileMenu.add(menuItem);
+//        
+//        menuItem = new JMenuItem("Open");
+//        menuItem.setMnemonic(KeyEvent.VK_O);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_O, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("open");
+//        menuItem.addActionListener((ActionListener) this);
+//        fileMenu.add(menuItem);
+//                
+//        menuItem = new JMenuItem("Quit");
+//        menuItem.setMnemonic(KeyEvent.VK_Q);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("quit");
+//        menuItem.addActionListener((ActionListener) this);
+//        fileMenu.add(menuItem);
+//        
         return menubar;
     }
 
@@ -105,19 +135,19 @@ public class MVCApp extends JFrame implements ActionListener {
     	String cmmd = e.getActionCommand();
     	if (cmmd == "save") {
     		Utilities.save(model);
-    	} else if (cmmd == "SaveAs") {
+    	} else if (cmmd == "saveas") {
     		Utilities.error("Sorry, not yet implemented");
     	} else if (cmmd == "open") {
     		Utilities.error("Sorry, not yet implemented");
     	} else if (cmmd == "new") {
     		Utilities.saveChanges(model);
-    		model = getFactory().makeModel();
+    		model = factory.makeModel();
     	} else if (cmmd == "undo") {
     		commandProcessor.undo();
     	} else if (cmmd == "redo") {
     		commandProcessor.redo();
     	} else if (cmmd == "quit") {
-//    		Utilities.saveChanges(model);
+    		Utilities.saveChanges(model);
     		System.exit(1);
     	} else if (cmmd == "help") {
     		Utilities.informUser(getFactory().getHelp());
@@ -137,6 +167,7 @@ public class MVCApp extends JFrame implements ActionListener {
 			panel.setModel(model);
 			ViewFrame vf = new ViewFrame(panel);
 			vf.setVisible(true);
+			vf.setTitle(cmmd);
 			desktop.add(vf);
 			try {
 				vf.setSelected(true);
@@ -150,7 +181,6 @@ public class MVCApp extends JFrame implements ActionListener {
     		Command cmmdObject = getFactory().makeCommand(cmmd);
     		cmmdObject.setModel(model);
     		commandProcessor.execute(cmmdObject);
-        	// make a command and ask command processor to execute it
     	}
     }
 

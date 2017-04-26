@@ -4,22 +4,23 @@ import MVC.*;
 
 public class SetHeight extends Command {
 	protected double newHeight;
-	Brick brick = (Brick) getModel(),
-	model = brick;
 	public SetHeight(Model model) {
 		super(model);
 		commandName = "setHeight";
 		setUndoable(true);
 	}
 	public SetHeight(){
-		setModel(brick);
+		System.out.println("Inside constructor of SetHeight");
 		commandName = "setHeight";
 		setUndoable(true);
 	}
 	public void execute(){
-		System.out.println("Inside execute of SetHeight");
 		super.execute();
-		brick.setHeight(newHeight);
+		Brick brick = (Brick) getModel(),
+		model = brick;
+		System.out.println("Inside execute of SetHeight");
+		String newHeight = Utilities.askUser("what is the new height?");
+		brick.setHeight(Double.parseDouble(newHeight));
 		brick.changed();
 	}
 }

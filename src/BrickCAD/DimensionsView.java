@@ -1,7 +1,6 @@
 package BrickCAD;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
@@ -12,14 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import MVC.*;
-
-@SuppressWarnings("serial")
+import MVC.*;@SuppressWarnings("serial")
 public class DimensionsView extends View {
 	Brick brick = (Brick) BrickCAD.getModel();
 	AppFactory factory = MVCApp.getFactory();
-	public DimensionsView() {
+	public DimensionsView(String title) {
 		super();
+		this.title = title;
 		System.out.println(brick);
 		setSize(200,200);
 		brick.addObserver(this);
@@ -29,20 +27,17 @@ public class DimensionsView extends View {
         JLabel height = new JLabel("Height");
         JLabel width = new JLabel("Width");
         JLabel length = new JLabel("Length");
-        JLabel directions = new JLabel("Enter in desired attributes and press Enter");
+        JLabel directions = new JLabel("Type text in a field and press Enter");
         
         JTextField heightField = new JTextField("");
         JTextField widthField = new JTextField("");
         JTextField lengthField = new JTextField("");
-        JButton ok = new JButton("OK");
-        JButton cancel = new JButton("Cancel");
-        
+
         heightField.setText(String.valueOf(brick.getHeight()));
         widthField.setText(String.valueOf(brick.getWidth()));
         lengthField.setText(String.valueOf(brick.getLength()));
         
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.PAGE_AXIS));
-        buttonPane.setLayout(new FlowLayout());
 
         fieldsPanel.add(attributes);
         fieldsPanel.add(height);
@@ -52,8 +47,6 @@ public class DimensionsView extends View {
         fieldsPanel.add(length);
         fieldsPanel.add(lengthField);
         fieldsPanel.add(directions);
-        buttonPane.add(ok);
-        buttonPane.add(cancel);
         
         this.add(fieldsPanel, BorderLayout.PAGE_START);
         this.add(buttonPane, BorderLayout.PAGE_END);
@@ -63,11 +56,6 @@ public class DimensionsView extends View {
 				System.out.println("inside keyPressed actionListener of lengthField in dview");
 				int cmmd = e.getKeyCode();
 				if(cmmd == KeyEvent.VK_ENTER){
-//					Double newHeight = Double.parseDouble(heightField.getText());
-//					Double newWidth = Double.parseDouble(widthField.getText());
-//					brick.setHeight(newHeight);
-//					brick.setWidth(newWidth);
-//					brick.setLength(newLength);
 					SetLength setLength = (SetLength) factory.makeCommand("setlength");
 		    		CommandProcessor cp = CommandProcessor.getCommandProcessor();
 		    		setLength.newLength = Double.parseDouble(lengthField.getText());
@@ -82,11 +70,6 @@ public class DimensionsView extends View {
 				System.out.println("inside keyPressed actionListener of heightField in dview");
 				int cmmd = e.getKeyCode();
 				if(cmmd == KeyEvent.VK_ENTER){
-//					Double newWidth = Double.parseDouble(widthField.getText());
-//					Double newLength = Double.parseDouble(lengthField.getText());
-//					brick.setHeight(newHeight);
-//					brick.setWidth(newWidth);
-//					brick.setLength(newLength);
 					SetHeight setHeight = (SetHeight) factory.makeCommand("setheight");
 		    		CommandProcessor cp = CommandProcessor.getCommandProcessor();
 		    		setHeight.newHeight = Double.parseDouble(heightField.getText());
@@ -101,11 +84,6 @@ public class DimensionsView extends View {
 				System.out.println("inside keyPressed actionListener of widthField in dview");
 				int cmmd = e.getKeyCode();
 				if(cmmd == KeyEvent.VK_ENTER){
-//					Double newHeight = Double.parseDouble(heightField.getText());
-//					Double newLength = Double.parseDouble(lengthField.getText());
-//					brick.setHeight(newHeight);
-//					brick.setWidth(newWidth);
-//					brick.setLength(newLength);
 					SetWidth setWidth = (SetWidth) factory.makeCommand("setwidth");
 		    		CommandProcessor cp = CommandProcessor.getCommandProcessor();
 		    		setWidth.newWidth = Double.parseDouble(widthField.getText());

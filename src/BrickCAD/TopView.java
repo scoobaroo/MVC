@@ -14,8 +14,9 @@ import MVC.*;
 public class TopView extends View {
 	Brick brick = (Brick) BrickCAD.getModel();
 	Graphics g;
-	public TopView() {
+	public TopView(String title) {
 		super();
+		this.title = title;
 		System.out.println(brick);
 		setPreferredSize(new Dimension(400, 400));
 		brick.addObserver(this);
@@ -31,8 +32,6 @@ public class TopView extends View {
 	}
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o.hasChanged()){
-			paintComponent(g);
-		}
+		repaint();
 	}
 }

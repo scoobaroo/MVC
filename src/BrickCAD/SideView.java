@@ -13,8 +13,9 @@ import MVC.*;
 public class SideView extends View {
 	Brick brick = (Brick) BrickCAD.getModel();
 	Graphics g;
-	public SideView() {
+	public SideView(String title) {
 		super();
+		this.title=title;
 		System.out.println(brick);
 		setPreferredSize(new Dimension(400, 400));
 		brick.addObserver(this);
@@ -23,15 +24,13 @@ public class SideView extends View {
 	public void paintComponent (Graphics g) {
 		  super.paintComponent(g);
 		  g.setColor(Color.BLUE);
-		  g.drawRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10); 
+//		  g.drawRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10); 
 		  g.setColor(Color.RED);//can use either of the two//
 		  g.fillRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10);
 		}
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o.hasChanged()){
-			paintComponent(g);
-		}
+		repaint();
 	}
 
 }

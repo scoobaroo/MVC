@@ -5,9 +5,7 @@ public abstract class Command {
 	protected Model model;
 	private Memento memento;
 	public String commandName;
-	
 	public Command(){
-		
 	}
 	public boolean isUndoable() {
 		return undoable;
