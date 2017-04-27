@@ -1,6 +1,8 @@
 package BrickCAD;
-
-import MVC.*;
+import MVC.Command;
+import MVC.Model;
+import MVC.Utilities;
+import org.apache.commons.lang3.StringUtils;
 
 public class SetLength extends Command{
 	protected double newLength;
@@ -19,7 +21,10 @@ public class SetLength extends Command{
 		model=brick;
 		System.out.println("Inside execute of SetLength");
 		String newLength=Utilities.askUser("what is the new length?");
-		brick.setLength(Double.parseDouble(newLength));
-		brick.changed();
+		if(StringUtils.isNumeric(newLength)){
+			brick.setLength(Double.parseDouble(newLength));
+			brick.changed();
+		} else
+			Utilities.informUser("Please enter a number");
 	}
 }

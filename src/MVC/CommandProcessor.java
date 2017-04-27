@@ -26,14 +26,15 @@ public class CommandProcessor {
     }
     
 	public void undo() {
+		System.out.println("Inside undo");
 		if(!undoStack.empty()){
 			Command top = undoStack.pop();
 			top.undo();
 			redoStack.push(top);
 		}
 	}
-
 	public void redo() {
+		System.out.println("Inside redo");
 		if(!redoStack.empty()){
 			Command redo = redoStack.pop();
 			redo.execute();

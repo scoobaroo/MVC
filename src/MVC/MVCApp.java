@@ -2,6 +2,7 @@ package MVC;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -28,8 +29,8 @@ public class MVCApp extends JFrame implements ActionListener {
 		commands.add("undo");
 		commands.add("redo");
 	}
-	static String[] fileOptions = {"New","Open","Save", "SaveAs", "Quit"};
-	static String[] editOptions = {"Redo","Undo"};
+	static String[] fileOptions = {"new","open","save", "saveas", "quit"};
+	static String[] editOptions = {"redo","undo"};
 	static String[] helpOptions = {"help","about"};
 	static String[] viewOptions = {};
 	
@@ -87,47 +88,7 @@ public class MVCApp extends JFrame implements ActionListener {
         menuItem.setActionCommand("redo");
         menuItem.addActionListener(this);
         editmenu.add(menuItem);
-        
-//        menuItem = new JMenuItem("New");
-//        menuItem.setMnemonic(KeyEvent.VK_N);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_N, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("new");
-//        menuItem.addActionListener((ActionListener) this);
-//        fileMenu.add(menuItem);
-//        
-//        menuItem = new JMenuItem("Save");
-//        menuItem.setMnemonic(KeyEvent.VK_S);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_S, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("save");
-//        menuItem.addActionListener((ActionListener) this);
-//        fileMenu.add(menuItem);
-//        
-//        menuItem = new JMenuItem("Save As");
-//        menuItem.setMnemonic(KeyEvent.VK_P);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_P, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("saveas");
-//        menuItem.addActionListener((ActionListener) this);
-//        fileMenu.add(menuItem);
-//        
-//        menuItem = new JMenuItem("Open");
-//        menuItem.setMnemonic(KeyEvent.VK_O);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_O, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("open");
-//        menuItem.addActionListener((ActionListener) this);
-//        fileMenu.add(menuItem);
-//                
-//        menuItem = new JMenuItem("Quit");
-//        menuItem.setMnemonic(KeyEvent.VK_Q);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("quit");
-//        menuItem.addActionListener((ActionListener) this);
-//        fileMenu.add(menuItem);
-//        
+
         return menubar;
     }
 
@@ -136,12 +97,17 @@ public class MVCApp extends JFrame implements ActionListener {
     	if (cmmd == "save") {
     		Utilities.save(model);
     	} else if (cmmd == "saveas") {
-    		Utilities.error("Sorry, not yet implemented");
+    		Utilities.saveAs(model);
     	} else if (cmmd == "open") {
-    		Utilities.error("Sorry, not yet implemented");
+    		try {
+				Utilities.open(model);
+			} catch (IOException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+			}
     	} else if (cmmd == "new") {
     		Utilities.saveChanges(model);
     		model = factory.makeModel();
+    		MVCApp.setModel(model);
     	} else if (cmmd == "undo") {
     		commandProcessor.undo();
     	} else if (cmmd == "redo") {
@@ -178,6 +144,12 @@ public class MVCApp extends JFrame implements ActionListener {
     class EditHandler implements ActionListener {
     	public void actionPerformed(ActionEvent e){
     		String cmmd = e.getActionCommand();
+    		if(cmmd == "redo"){
+    			commandProcessor.redo();
+    		}
+    		else if (cmmd == "undo"){
+    			commandProcessor.undo();
+    		}
     		Command cmmdObject = getFactory().makeCommand(cmmd);
     		cmmdObject.setModel(model);
     		commandProcessor.execute(cmmdObject);

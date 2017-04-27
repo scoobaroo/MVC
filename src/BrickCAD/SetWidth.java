@@ -1,5 +1,7 @@
 package BrickCAD;
 
+import org.apache.commons.lang3.StringUtils;
+
 import MVC.*;
 
 public class SetWidth extends Command{
@@ -19,7 +21,11 @@ public class SetWidth extends Command{
 		Brick brick = (Brick) getModel(),
 		model=brick;
 		String newWidth=Utilities.askUser("what is the new width?");
-		brick.setWidth(Double.parseDouble(newWidth));
-		brick.changed();
+		if(StringUtils.isNumeric(newWidth)){
+			brick.setWidth(Double.parseDouble(newWidth));
+			brick.changed();
+		} else
+			Utilities.informUser("Please enter a number");
+
 	}
 }

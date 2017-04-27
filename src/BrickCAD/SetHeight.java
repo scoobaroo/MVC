@@ -1,5 +1,7 @@
 package BrickCAD;
 
+import org.apache.commons.lang3.StringUtils;
+
 import MVC.*;
 
 public class SetHeight extends Command {
@@ -20,7 +22,11 @@ public class SetHeight extends Command {
 		model = brick;
 		System.out.println("Inside execute of SetHeight");
 		String newHeight = Utilities.askUser("what is the new height?");
-		brick.setHeight(Double.parseDouble(newHeight));
-		brick.changed();
+		if(StringUtils.isNumeric(newHeight)){
+			brick.setHeight(Double.parseDouble(newHeight));
+			brick.changed();
+		} else
+			Utilities.informUser("Please enter a number");
+
 	}
 }

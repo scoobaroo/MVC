@@ -3,8 +3,16 @@ package MVC;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Scanner;
 
 public class Utilities {
 
@@ -93,5 +101,26 @@ public class Utilities {
 		} catch (Exception err) {
 			Utilities.error(err.getMessage());
 		}
+   }
+   public static void saveAs(Model model) {
+	    String fName = Utilities.askUser("Enter a file name");
+		try {
+			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
+			os.writeObject(model);
+			model.setUnsavedChanges(false);
+		} catch (Exception err) {
+			Utilities.error(err.getMessage());
+		}
+   }
+   public static void open(Model model) throws IOException, ClassNotFoundException{
+	 //Create a file chooser
+	   final JFileChooser fc = new JFileChooser();
+       int returnVal = fc.showOpenDialog(fc);
+       if (returnVal == JFileChooser.APPROVE_OPTION) {
+           	File file = fc.getSelectedFile();
+			ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
+			Model m = (Model) is.readObject();
+			MVCApp.setModel(m);
+       }
    }
 }

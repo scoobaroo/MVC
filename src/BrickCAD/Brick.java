@@ -11,6 +11,8 @@ public class Brick extends Model {
 		this.height = 10.0;
 		this.width = 20.0;
 		this.length = 25.0;
+		this.setFileName("brick");
+		this.setUnsavedChanges(false);
 	}
 	public double getHeight(){
 		return this.height;
