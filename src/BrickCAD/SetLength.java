@@ -2,10 +2,11 @@ package BrickCAD;
 import MVC.Command;
 import MVC.Model;
 import MVC.Utilities;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class SetLength extends Command{
-	protected double newLength;
+	protected Double newLength=null;
 	public SetLength(Model model) {
 		super(model);
 		commandName = "setLength";
@@ -17,14 +18,15 @@ public class SetLength extends Command{
 	}
 	public void execute(){
 		super.execute();
-		Brick brick = (Brick) getModel(),
-		model=brick;
+		Brick brick = (Brick) getModel();
 		System.out.println("Inside execute of SetLength");
-		String newLength=Utilities.askUser("what is the new length?");
-		if(StringUtils.isNumeric(newLength)){
-			brick.setLength(Double.parseDouble(newLength));
-			brick.changed();
-		} else
-			Utilities.informUser("Please enter a number");
+		if(newLength==null){
+			String newLengthString=Utilities.askUser("what is the new length?");
+			if(StringUtils.isNumeric(newLengthString)){
+				newLength = Double.parseDouble(newLengthString);
+			} else
+				Utilities.error("Please enter a number");
+		}
+		brick.setLength(newLength);
 	}
 }

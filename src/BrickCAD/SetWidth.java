@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import MVC.*;
 
 public class SetWidth extends Command{
-	protected double newWidth;
+	protected Double newWidth=null;
 	public SetWidth(Model model) {
 		super(model);
 		commandName = "setWidth";
@@ -18,14 +18,14 @@ public class SetWidth extends Command{
 	}
 	public void execute(){
 		super.execute();
-		Brick brick = (Brick) getModel(),
-		model=brick;
-		String newWidth=Utilities.askUser("what is the new width?");
-		if(StringUtils.isNumeric(newWidth)){
-			brick.setWidth(Double.parseDouble(newWidth));
-			brick.changed();
-		} else
-			Utilities.informUser("Please enter a number");
-
+		Brick brick = (Brick) getModel();
+		if(newWidth==null){
+			String newWidthString=Utilities.askUser("what is the new width?");
+			if(StringUtils.isNumeric(newWidthString)){
+				newWidth = Double.parseDouble(newWidthString);
+			} else
+				Utilities.error("Please enter a number");
+		}
+		brick.setWidth(newWidth);
 	}
 }

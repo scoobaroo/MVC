@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import MVC.*;
 
 public class SetHeight extends Command {
-	protected double newHeight;
+	protected Double newHeight=null;
 	public SetHeight(Model model) {
 		super(model);
 		commandName = "setHeight";
@@ -18,15 +18,15 @@ public class SetHeight extends Command {
 	}
 	public void execute(){
 		super.execute();
-		Brick brick = (Brick) getModel(),
-		model = brick;
+		Brick brick = (Brick) getModel();
 		System.out.println("Inside execute of SetHeight");
-		String newHeight = Utilities.askUser("what is the new height?");
-		if(StringUtils.isNumeric(newHeight)){
-			brick.setHeight(Double.parseDouble(newHeight));
-			brick.changed();
-		} else
-			Utilities.informUser("Please enter a number");
-
+		if(newHeight==null){
+			String newHeightString = Utilities.askUser("what is the new height?");
+			if(StringUtils.isNumeric(newHeightString)){
+				newHeight = Double.parseDouble(newHeightString);
+			} else
+				Utilities.informUser("Please enter a number");
+		}
+		brick.setHeight(newHeight);
 	}
 }

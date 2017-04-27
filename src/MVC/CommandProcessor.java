@@ -1,12 +1,11 @@
 package MVC;
 
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class CommandProcessor {
 	private Stack<Command> undoStack, redoStack;
 	
-	private static CommandProcessor commandProcessor;
+	private static CommandProcessor commandProcessor=null;
     
 	private CommandProcessor() {
 		undoStack = new Stack<Command>();
@@ -14,7 +13,9 @@ public class CommandProcessor {
     }
     
 	public static CommandProcessor makeCommandProcessor() {
-		commandProcessor = new CommandProcessor();
+		if (null == commandProcessor) {
+			commandProcessor = new CommandProcessor();
+		}
 		return commandProcessor;
 	}
 

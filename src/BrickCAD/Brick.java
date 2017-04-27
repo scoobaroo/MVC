@@ -11,7 +11,7 @@ public class Brick extends Model {
 		this.height = 10.0;
 		this.width = 20.0;
 		this.length = 25.0;
-		this.setFileName("brick");
+		this.setFileName(null);
 		this.setUnsavedChanges(false);
 	}
 	public double getHeight(){
@@ -25,12 +25,15 @@ public class Brick extends Model {
 	}
 	public void setHeight(double h){
 		this.height=h;
+		this.changed();
 	}
 	public void setWidth(double w){
 		this.width=w;
+		this.changed();
 	}
 	public void setLength(double l){
 		this.length=l;
+		this.changed();
 	}
 	@Override
 	public Memento makeMemento() {
@@ -45,9 +48,10 @@ public class Brick extends Model {
 		this.length = bm.length;
 		this.width = bm.width;
 		this.height = bm.height;
+		this.changed();
 	}
 
-	public class BrickMemento implements Memento {
+	private class BrickMemento implements Memento {
 		public double height;
 		public double length;
 		public double width;

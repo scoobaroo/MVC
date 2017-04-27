@@ -46,9 +46,8 @@ public class BrickCAD extends MVCApp{
 	public static void main(String args[]) {
 		System.out.println("Inside BrickCAD");
 		BrickFactory bf = new BrickFactory();
-		BrickCAD bc = new BrickCAD(bf);
 		Brick brick = (Brick) bf.makeModel();
-		bc.setModel(brick);
-		bc.run(bf);
+		BrickCAD.setModel(brick);
+		BrickCAD.run(bf);
 	}
 }

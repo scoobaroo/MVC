@@ -23,14 +23,7 @@ public class SideView extends View {
 	}
 	public void paintComponent (Graphics g) {
 		  super.paintComponent(g);
-		  g.setColor(Color.BLUE);
-//		  g.drawRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10); 
 		  g.setColor(Color.RED);//can use either of the two//
 		  g.fillRect (20, 20, (int) brick.getWidth()*10, (int) brick.getHeight()*10);
 		}
-	@Override
-	public void update(Observable o, Object arg) {
-		repaint();
-	}
-
 }

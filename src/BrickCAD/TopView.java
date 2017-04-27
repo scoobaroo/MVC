@@ -25,13 +25,7 @@ public class TopView extends View {
 	@Override
 	public void paintComponent (Graphics g) {
 	  super.paintComponent(g);
-	  g.setColor(Color.BLUE);
-	  g.drawRect (20, 20, (int) brick.getWidth()*10, (int) brick.getLength()*10);    //can use either of the two//
 	  g.setColor(Color.RED);
 	  g.fillRect (20, 20, (int) brick.getWidth()*10, (int) brick.getLength()*10);
-	}
-	@Override
-	public void update(Observable o, Object arg) {
-		repaint();
 	}
 }

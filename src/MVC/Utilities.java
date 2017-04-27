@@ -52,7 +52,6 @@ public class Utilities {
 	      }
 	   return result;
    }
-
    public static String askUser(String query) {
    	   return JOptionPane.showInputDialog(query);
    }
@@ -89,7 +88,7 @@ public class Utilities {
    }
 
    public static void save(Model model) {
-	   String fName = model.getFileName();
+	    String fName = model.getFileName();
 		if (fName == null) {
 			fName = Utilities.askUser("Enter a file name");
 			model.setFileName(fName);
@@ -112,14 +111,14 @@ public class Utilities {
 			Utilities.error(err.getMessage());
 		}
    }
-   public static void open(Model model) throws IOException, ClassNotFoundException{
+   public static void open() throws IOException, ClassNotFoundException{
 	 //Create a file chooser
 	   final JFileChooser fc = new JFileChooser();
        int returnVal = fc.showOpenDialog(fc);
        if (returnVal == JFileChooser.APPROVE_OPTION) {
            	File file = fc.getSelectedFile();
-			ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
-			Model m = (Model) is.readObject();
+			ObjectInputStream inputstream = new ObjectInputStream(new FileInputStream(file));
+			Model m = (Model) inputstream.readObject();
 			MVCApp.setModel(m);
        }
    }
