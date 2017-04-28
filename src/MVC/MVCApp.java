@@ -96,8 +96,12 @@ public class MVCApp extends JFrame implements ActionListener {
     		Utilities.saveAs(model);
     	} else if (cmmd == "open") {
     		try {
-    			Utilities.saveChanges(model);
-				Utilities.open();
+    			if(!model.hasUnsavedChanges()){
+    				Utilities.open();
+    			} else {
+    				Utilities.saveChanges(model);
+    				Utilities.open();
+    			}
 	    		desktop.removeAll();
 	    		desktop.updateUI();
 			} catch (IOException | ClassNotFoundException ex) {

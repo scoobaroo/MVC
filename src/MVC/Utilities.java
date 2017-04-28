@@ -84,8 +84,10 @@ public class Utilities {
 		if (fName == null) {
 			fName = Utilities.askUser("Enter a file name");
 			model.setFileName(fName);
+			model.setUnsavedChanges(false);
 		}
 		try {
+			model.setUnsavedChanges(false);
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
 			os.writeObject(model);
 			System.out.println("File made with name: "+fName);
@@ -98,6 +100,7 @@ public class Utilities {
 	    String fName = Utilities.askUser("Enter a file name");
 	    model.setFileName(fName);
 		try {
+			model.setUnsavedChanges(false);
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
 			os.writeObject(model);
 			os.close();
