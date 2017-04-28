@@ -1,5 +1,4 @@
 package MVC;
-
 import java.util.Stack;
 
 public class CommandProcessor {

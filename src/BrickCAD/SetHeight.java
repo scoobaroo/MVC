@@ -1,7 +1,5 @@
 package BrickCAD;
-
 import org.apache.commons.lang3.StringUtils;
-
 import MVC.*;
 
 public class SetHeight extends Command {

@@ -18,7 +18,7 @@ public abstract class View extends JPanel implements Observer{
 	}
 	public void update(Observable o, Object arg){
 		repaint();
-	};
+	}
 	public void setModel(Model model) {
 		this.model=model;
 		model.addObserver(this);

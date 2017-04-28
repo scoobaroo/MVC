@@ -1,20 +1,16 @@
 package BrickCAD;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-
-import javax.swing.*;
-
 import MVC.*;
 
 @SuppressWarnings("serial")
 public class BrickCAD extends MVCApp{
-	Brick brick = (Brick) MVCApp.getModel();
+	Brick brick = (Brick) BrickCAD.getModel();
 	CommandProcessor cp = CommandProcessor.getCommandProcessor();
 	
 	public BrickCAD(AppFactory factory) {
 		super(factory);
 	}
+	
 	public void actionPerformed(ActionEvent e){
     	String cmmd = e.getActionCommand();
     	if (cmmd.equalsIgnoreCase("setLength")) {
@@ -30,18 +26,6 @@ public class BrickCAD extends MVCApp{
        		cp.execute(setWidth);
     	}
 	}
-	
-	public void actionPerformed(KeyEvent e){
-    	int cmmd = e.getKeyCode();
-    	if (cmmd==KeyEvent.VK_ENTER) {
-    		Command setLength = getFactory().makeCommand("setlength");
-    		Command setHeight = getFactory().makeCommand("setheight");
-    		Command setWidth = getFactory().makeCommand("setwidth");
-    		cp.execute(setLength);
-    		cp.execute(setHeight);
-    		cp.execute(setWidth);
-    	} 
-    }
 
 	public static void main(String args[]) {
 		System.out.println("Inside BrickCAD");

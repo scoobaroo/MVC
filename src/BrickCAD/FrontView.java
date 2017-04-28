@@ -1,12 +1,5 @@
 package BrickCAD;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.util.Observable;
-
+import java.awt.*;
 import MVC.*;
 
 @SuppressWarnings("serial")

@@ -1,13 +1,9 @@
 package MVC;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
-import BrickCAD.Brick;
 
 @SuppressWarnings("serial")
 public class MVCApp extends JFrame implements ActionListener {
@@ -100,7 +96,7 @@ public class MVCApp extends JFrame implements ActionListener {
     		Utilities.saveAs(model);
     	} else if (cmmd == "open") {
     		try {
-    			Utilities.save(model);
+    			Utilities.saveChanges(model);
 				Utilities.open();
 	    		desktop.removeAll();
 	    		desktop.updateUI();

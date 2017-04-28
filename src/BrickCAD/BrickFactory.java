@@ -1,7 +1,5 @@
 package BrickCAD;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import MVC.*;
 
 public class BrickFactory implements AppFactory {
@@ -66,6 +64,4 @@ public class BrickFactory implements AppFactory {
 	public String about() {
 		return about;
 	}
-
-
 }

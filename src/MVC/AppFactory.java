@@ -1,5 +1,4 @@
 package MVC;
-
 import java.util.List;
 
 public interface AppFactory {

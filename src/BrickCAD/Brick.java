@@ -1,5 +1,4 @@
 package BrickCAD;
-
 import MVC.*;
 
 @SuppressWarnings("serial")

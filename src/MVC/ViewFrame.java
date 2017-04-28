@@ -1,8 +1,5 @@
 package MVC;
-
 import java.util.*;
-import java.util.Observer;
-
 import javax.swing.*;
 
 @SuppressWarnings("serial")

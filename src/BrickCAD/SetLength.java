@@ -1,8 +1,5 @@
 package BrickCAD;
-import MVC.Command;
-import MVC.Model;
-import MVC.Utilities;
-
+import MVC.*;
 import org.apache.commons.lang3.StringUtils;
 
 public class SetLength extends Command{

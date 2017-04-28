@@ -1,5 +1,3 @@
 package MVC;
 
-public interface Memento {
-
-}
+public interface Memento {}

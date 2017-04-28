@@ -1,18 +1,7 @@
 package MVC;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Scanner;
+import java.io.*;
 
 public class Utilities {
 
@@ -59,7 +48,8 @@ public class Utilities {
    public static boolean confirm(String query) {
 	   int result = JOptionPane.showConfirmDialog(null,
 	             query, "choose one", JOptionPane.YES_NO_OPTION);
-	   return result == 0; // or 1?
+	   System.out.println(result);
+	   return result == 0;
    }
 
    public static void error(String gripe) {
@@ -75,7 +65,7 @@ public class Utilities {
 				gripe.toString(),
 				"OOPS!",
 				JOptionPane.ERROR_MESSAGE);
-	   }
+   }
 
    public static void informUser(String info) {
 	   JOptionPane.showMessageDialog(null, "<html><body><p style='width: 200px;'>"+info+"</p></body></html>",
@@ -83,8 +73,10 @@ public class Utilities {
    }
 
    public static void saveChanges(Model model) {
-	   if (model.hasUnsavedChanges() && Utilities.confirm("current model has unsaved changes, continue?"))
-		  Utilities.save(model);
+	   if (model.hasUnsavedChanges() && Utilities.confirm("current model has unsaved changes, save them and continue?")){
+		   Utilities.save(model);
+		   System.out.println("Changes saved to model");
+	   }
    }
 
    public static void save(Model model) {
@@ -96,30 +88,33 @@ public class Utilities {
 		try {
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
 			os.writeObject(model);
-			model.setUnsavedChanges(false);
+			System.out.println("File made with name: "+fName);
+			os.close();
 		} catch (Exception err) {
 			Utilities.error(err.getMessage());
 		}
    }
    public static void saveAs(Model model) {
 	    String fName = Utilities.askUser("Enter a file name");
+	    model.setFileName(fName);
 		try {
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
 			os.writeObject(model);
-			model.setUnsavedChanges(false);
+			os.close();
 		} catch (Exception err) {
 			Utilities.error(err.getMessage());
 		}
    }
    public static void open() throws IOException, ClassNotFoundException{
-	 //Create a file chooser
 	   final JFileChooser fc = new JFileChooser();
        int returnVal = fc.showOpenDialog(fc);
        if (returnVal == JFileChooser.APPROVE_OPTION) {
            	File file = fc.getSelectedFile();
-			ObjectInputStream inputstream = new ObjectInputStream(new FileInputStream(file));
-			Model m = (Model) inputstream.readObject();
+			ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
+			Model m = (Model) inputStream.readObject();
+			System.out.println(m.getFileName());
 			MVCApp.setModel(m);
+			inputStream.close();
        }
    }
 }
